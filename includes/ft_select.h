@@ -12,3 +12,16 @@
 
 #include "../libft/includes/libft.h"
 #include <sys/stat.h>
+#include <termios.h>
+#include <curses.h>
+#include <term.h>
+
+#define BUFFSIZE 3
+
+typedef struct			s_lstfiles
+{
+	char				*name;
+	int					selected;
+	int					cursor;
+	struct s_lstfiles	*next;
+}						t_lstfiles;
