@@ -19,12 +19,28 @@ int		ft_outchar(int c)
 
 void			ft_display_lst(t_lstfiles *lst)
 {
-	int i;
+	int		i;
+	char	*str;
 
 	i = 0;
 	while (lst)
 	{
-		ft_putendl(lst->name);
+
+		str = tgoto(tgetstr("cm", NULL), 0, i++);
+		tputs(str, 1, ft_outchar);
+		if (lst->selected)
+		{
+			str = tgetstr("mr", NULL);
+			tputs(str, 1, ft_outchar);
+		}
+		if (lst->cursor)
+		{
+			str = tgetstr("us", NULL);
+			tputs(str, 1, ft_outchar);
+		}
+		ft_putstr(lst->name);
+		str = tgetstr("me", NULL);
+		tputs(str, 1, ft_outchar);
 		lst = lst->next;
 	}
 }
@@ -47,8 +63,8 @@ int		set_shell(int lflag)
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
 	term.c_lflag = term.c_lflag & lflag;
-	term.c_cc[VMIN] = 1; // nb de fois où la touche doit etre appuyé pour lancer la commande
-	term.c_cc[VTIME] = 0; // retour de read tout les n délai*/
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, 0, &term))
 		return (-1);
 	return (0);
@@ -81,8 +97,13 @@ t_lstfiles		*ft_add_lst(t_lstfiles *tmp, t_lstfiles *lst)
 
 int		reset_shell()
 {
-	if (tcsetattr(0, 0, NULL) == -1)
-		return (-1);
+	struct termios term;
+
+	if (tcgetattr(0, &term) == -1)
+	   return (-1);
+	term.c_lflag = (ICANON | ECHO);
+	if (tcsetattr(0, 0, &term) == -1)
+	   return (-1);
 	return (0);
 }
 
@@ -95,6 +116,57 @@ int		init_shell()
 	if (tgetent(NULL, name) == ERR)
 		return (-1);
 	return (0);
+}
+
+void	ft_go_down(t_lstfiles *lst)
+{
+	while (lst)
+	{
+		if (lst->cursor && lst->next)
+		{
+			lst->cursor = 0;
+			lst->next->cursor = 1;
+			break;
+		}
+		lst = lst->next;
+	}
+}
+
+void	ft_go_up(t_lstfiles *lst)
+{
+	while (lst->next)
+	{
+		if (lst->next->cursor)
+		{
+			lst->cursor = 1;
+			lst->next->cursor = 0;
+		}
+		lst = lst->next;
+	}
+}
+
+void	ft_select(t_lstfiles *lst)
+{
+	while (lst)
+	{
+		if (lst->cursor)
+			lst->selected = 1;
+		lst = lst->next;
+	}
+}
+
+void	ft_display_selection(t_lstfiles *lst)
+{
+	while (lst)
+	{
+		if (lst->selected)
+		{
+			ft_putstr(lst->name);
+			ft_putchar(' ');
+		}
+		lst = lst->next;
+	}
+	exit(0);
 }
 
 int		main(int argc, char **argv)
@@ -115,24 +187,32 @@ int		main(int argc, char **argv)
 		if (!(lstat(argv[i], &bufstat) == -1))
 			lst = ft_add_lst(ft_create_lst(argv[i]), lst);
 	}
+	lst->cursor = 1;
 	ft_clear_screen(lst);
 	ft_putstr(tgoto(tgetstr("cm", NULL), 0, 0));
 	while ((ret = read(0, buf, BUFFSIZE)))
 	{
-		ft_clear_screen(lst);
-		if (buf[0] == 27)
+		if (buf[0] == 10)
+		{
+			reset_shell();
+			ft_display_selection(lst);
+		}
+		else if (buf[0] == 32)
+			ft_select(lst);
+		else if (buf[0] == 27)
 		{
 			if (buf[1] == 0)
 				return (0);
 			else if (buf[2] == 65)
-				ft_putendl("top arrow");
+				ft_go_up(lst);
 			else if (buf[2] == 68)
 				ft_putendl("left arrow");
 			else if (buf[2] == 67)
 				ft_putendl("right arrow");
 			else if (buf[2] == 66)
-				ft_putendl("down arrow");
+				ft_go_down(lst);
 		}
+		ft_clear_screen(lst);
 		ft_putstr(tgoto(tgetstr("cm", NULL), 0, 0));
 		ft_bzero(buf, ft_strlen(buf));
 	}
