@@ -215,7 +215,11 @@ int		main(int argc, char **argv)
 		else if (buf[0] == 27)
 		{
 			if (buf[1] == 0)
+			{
+				ft_clear_screen(lst);
+				reset_shell();
 				return (0);
+			}
 			else if (buf[2] == 65)
 				ft_go_up(lst);
 			else if (buf[2] == 68)
