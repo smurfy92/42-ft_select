@@ -12,7 +12,9 @@
 
 NAME = ft_select
 LIB = libft/libft.a
-SRC =	srcs/main.c
+SRC =	srcs/main.c \
+		srcs/commands.c \
+		srcs/shell.c
 OBJ = $(SRC:.c=.o)
 FLAG = -Wall -Werror -Wextra
 CG = \033[92m

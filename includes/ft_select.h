@@ -25,3 +25,15 @@ typedef struct			s_lstfiles
 	int					cursor;
 	struct s_lstfiles	*next;
 }						t_lstfiles;
+
+
+int						ft_outchar(int c);
+int						set_shell(int lflag);
+int						reset_shell(void);
+int						init_shell(void);
+void					ft_display_lst(t_lstfiles *lst);
+void					ft_go_up(t_lstfiles *lst);
+void					ft_select(t_lstfiles *lst);
+void					ft_display_selection(t_lstfiles *lst);
+void					ft_go_down(t_lstfiles *lst);
+void					ft_clear_screen(t_lstfiles *lst);
