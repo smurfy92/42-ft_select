@@ -43,6 +43,7 @@ void			ft_display_lst(t_lstfiles *lst)
 		tputs(str, 1, ft_outchar);
 		lst = lst->next;
 	}
+	ft_putchar('\n');
 }
 
 void			ft_clear_screen(t_lstfiles *lst)
@@ -99,6 +100,8 @@ int		reset_shell()
 {
 	struct termios term;
 
+	tputs(tgetstr("me", NULL), 1, ft_outchar);
+	tputs(tgetstr("ve", NULL), 1, ft_outchar);
 	if (tcgetattr(0, &term) == -1)
 	   return (-1);
 	term.c_lflag = (ICANON | ECHO);
@@ -150,7 +153,7 @@ void	ft_select(t_lstfiles *lst)
 	while (lst)
 	{
 		if (lst->cursor)
-			lst->selected = 1;
+			(lst->selected) ? (lst->selected = 0) : (lst->selected = 1);
 		lst = lst->next;
 	}
 }
@@ -175,13 +178,18 @@ int		main(int argc, char **argv)
 	int				i;
 	char			buf[BUFF_SIZE];
 	int				ret;
-	t_lstfiles		*lst;
+	static t_lstfiles	*lst;
 
 
 	lst = NULL;
 	init_shell();
 	i = 0;
 	set_shell((~ICANON & ~ECHO));
+	if (argc < 2)
+	{
+		ft_putendl("need arguments");
+		exit(0);
+	}
 	while (++i < argc)
 	{
 		if (!(lstat(argv[i], &bufstat) == -1))
@@ -189,16 +197,21 @@ int		main(int argc, char **argv)
 	}
 	lst->cursor = 1;
 	ft_clear_screen(lst);
-	ft_putstr(tgoto(tgetstr("cm", NULL), 0, 0));
+	tputs(tgetstr("vi", NULL), 1, ft_outchar);
 	while ((ret = read(0, buf, BUFFSIZE)))
 	{
+		set_shell((~ICANON & ~ECHO));
 		if (buf[0] == 10)
 		{
+			ft_clear_screen(lst);
 			reset_shell();
 			ft_display_selection(lst);
 		}
 		else if (buf[0] == 32)
+		{
+			tputs(tgetstr("vb", NULL), 1, ft_outchar);
 			ft_select(lst);
+		}
 		else if (buf[0] == 27)
 		{
 			if (buf[1] == 0)
@@ -213,10 +226,8 @@ int		main(int argc, char **argv)
 				ft_go_down(lst);
 		}
 		ft_clear_screen(lst);
-		ft_putstr(tgoto(tgetstr("cm", NULL), 0, 0));
 		ft_bzero(buf, ft_strlen(buf));
 	}
-
 	reset_shell();
 	return (0);
 }
