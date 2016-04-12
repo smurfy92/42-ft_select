@@ -33,10 +33,10 @@ int			reset_shell(void)
 	tputs(tgetstr("me", NULL), 1, ft_outchar);
 	tputs(tgetstr("ve", NULL), 1, ft_outchar);
 	if (tcgetattr(0, &term) == -1)
-	   return (-1);
+		return (-1);
 	term.c_lflag = (ICANON | ECHO);
 	if (tcsetattr(0, 0, &term) == -1)
-	   return (-1);
+		return (-1);
 	return (0);
 }
 
@@ -48,7 +48,7 @@ int			init_shell(void)
 		name = "xterm-256color";
 	if (tgetent(NULL, name) == ERR)
 		return (-1);
-	return (0);
+	return (1);
 }
 
 void		ft_clear_screen(t_lstfiles *lst)

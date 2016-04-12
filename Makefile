@@ -14,7 +14,8 @@ NAME = ft_select
 LIB = libft/libft.a
 SRC =	srcs/main.c \
 		srcs/commands.c \
-		srcs/shell.c
+		srcs/shell.c \
+		srcs/aymeri.c
 OBJ = $(SRC:.c=.o)
 FLAG = -Wall -Werror -Wextra
 CG = \033[92m
@@ -63,6 +64,13 @@ start:
 	@echo "					$(CG)                                      0000000000$(CE)";
 	@echo "					$(CG)                                       0000000$(CE)";
 	@echo "\n\n"
+	@echo "							$(CG)  __  _                _              _$(CE)";
+	@echo "							$(CG) / _|| |              | |            | |$(CE)";
+	@echo "							$(CG)| |_ | |_   ___   ___ | |  ___   ___ | |_$(CE)";
+	@echo "							$(CG)|  _|| __| / __| / _ \| | / _ \ / __|| __|$(CE)";
+	@echo "							$(CG)| |  | |_  \__ \|  __/| ||  __/| (__ | |_$(CE)";
+	@echo "							$(CG)|_|   \__| |___/ \___||_| \___| \___| \__|$(CE)";
+
 
 clean: start
 	@echo "$(CY)[FT_SELECT] :$(CE) $(CG)Cleaning Library ...$(CE)";

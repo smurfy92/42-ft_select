@@ -28,13 +28,13 @@ void		ft_go_down(t_lstfiles *lst)
 		{
 			tmp->cursor = 0;
 			tmp->next->cursor = 1;
-			break;
+			break ;
 		}
 		if (tmp->cursor && !tmp->next)
 		{
 			lst->cursor = 1;
 			tmp->cursor = 0;
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}
@@ -42,7 +42,6 @@ void		ft_go_down(t_lstfiles *lst)
 
 void		ft_go_up(t_lstfiles *lst)
 {
-
 	if (lst->cursor)
 	{
 		lst->cursor = 0;
@@ -67,7 +66,7 @@ void		ft_select(t_lstfiles *lst)
 	while (lst)
 	{
 		if (lst->cursor)
-			(lst->selected) ? (lst->selected = 0) : (lst->selected = 1);
+			lst->selected = (lst->selected ? 0 : 1);
 		lst = lst->next;
 	}
 }
@@ -83,7 +82,6 @@ void		ft_display_selection(t_lstfiles *lst)
 	{
 		if (lst->selected)
 		{
-
 			(t) ? ft_putchar(' ') : 0;
 			ft_putstr(lst->name);
 			t = 1;
@@ -91,5 +89,6 @@ void		ft_display_selection(t_lstfiles *lst)
 		lst = lst->next;
 	}
 	ft_putchar('\n');
+	reset_shell();
 	exit(0);
 }

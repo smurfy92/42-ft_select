@@ -10,13 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
-#include <sys/stat.h>
-#include <termios.h>
-#include <curses.h>
-#include <term.h>
+#ifndef FT_SELECT_H
+# define FT_SELECT_H
 
-#define BUFFSIZE 3
+# include "../libft/includes/libft.h"
+# include <sys/stat.h>
+# include <termios.h>
+# include <curses.h>
+# include <term.h>
+
+# define BUFFSIZE 3
 
 typedef struct			s_lstfiles
 {
@@ -26,7 +29,10 @@ typedef struct			s_lstfiles
 	struct s_lstfiles	*next;
 }						t_lstfiles;
 
-
+t_lstfiles				*ft_create_lst(char *name);
+t_lstfiles				*ft_add_lst(t_lstfiles *tmp, t_lstfiles *lst);
+t_lstfiles				*ft_del_lst(t_lstfiles *lst);
+t_lstfiles				*ft_process(t_lstfiles *lst, char *buf);
 int						ft_outchar(int c);
 int						set_shell(int lflag);
 int						reset_shell(void);
@@ -37,3 +43,5 @@ void					ft_select(t_lstfiles *lst);
 void					ft_display_selection(t_lstfiles *lst);
 void					ft_go_down(t_lstfiles *lst);
 void					ft_clear_screen(t_lstfiles *lst);
+
+#endif
