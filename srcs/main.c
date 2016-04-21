@@ -12,14 +12,15 @@
 
 #include "../includes/ft_select.h"
 
-void				ft_display_lst(t_lstfiles *lst)
+void				ft_display_lst(t_lstfiles *lst, struct winsize w)
 {
 	int		i;
 
 	i = 0;
 	while (lst)
 	{
-		tputs(tgoto(tgetstr("cm", NULL), 0, i++), 1, ft_outchar);
+		tputs(tgoto(tgetstr("cm", NULL), 30 * (i/w.ws_row), i%w.ws_row), 1, ft_outchar);
+		i++;
 		if (lst->selected)
 			tputs(tgetstr("mr", NULL), 1, ft_outchar);
 		if (lst->cursor)
@@ -38,6 +39,7 @@ int					main(int argc, char **argv)
 	char				buf[BUFF_SIZE];
 	int					ret;
 	static t_lstfiles	*lst;
+	struct winsize w;
 
 	lst = NULL;
 	(init_shell()) ? set_shell((~ICANON & ~ECHO)) : 0;
@@ -47,13 +49,15 @@ int					main(int argc, char **argv)
 			lst = ft_add_lst(ft_create_lst(argv[i]), lst);
 	(!lst) ? exit(0) : 0;
 	lst->cursor = 1;
-	ft_clear_screen(lst);
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	ft_clear_screen(lst, w);
 	tputs(tgetstr("vi", NULL), 1, ft_outchar);
 	while ((ret = read(0, buf, BUFFSIZE)))
 	{
 		set_shell((~ICANON & ~ECHO));
+		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		lst = ft_process(lst, buf);
-		ft_clear_screen(lst);
+		ft_clear_screen(lst, w);
 		ft_bzero(buf, ft_strlen(buf));
 	}
 	reset_shell();

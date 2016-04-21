@@ -51,8 +51,8 @@ int			init_shell(void)
 	return (1);
 }
 
-void		ft_clear_screen(t_lstfiles *lst)
+void		ft_clear_screen(t_lstfiles *lst, struct winsize w)
 {
 	tputs(tgetstr("cl", NULL), 0, ft_outchar);
-	ft_display_lst(lst);
+	ft_display_lst(lst, w);
 }

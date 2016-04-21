@@ -15,6 +15,7 @@
 
 # include "../libft/includes/libft.h"
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
@@ -37,11 +38,11 @@ int						ft_outchar(int c);
 int						set_shell(int lflag);
 int						reset_shell(void);
 int						init_shell(void);
-void					ft_display_lst(t_lstfiles *lst);
+void					ft_display_lst(t_lstfiles *lst, struct winsize w);
 void					ft_go_up(t_lstfiles *lst);
 void					ft_select(t_lstfiles *lst);
 void					ft_display_selection(t_lstfiles *lst);
 void					ft_go_down(t_lstfiles *lst);
-void					ft_clear_screen(t_lstfiles *lst);
+void					ft_clear_screen(t_lstfiles *lst, struct winsize w);
 
 #endif
