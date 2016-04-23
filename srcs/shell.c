@@ -30,7 +30,6 @@ int			reset_shell(void)
 {
 	struct termios term;
 
-	tputs(tgetstr("me", NULL), 1, ft_outchar);
 	tputs(tgetstr("ve", NULL), 1, ft_outchar);
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
@@ -51,8 +50,8 @@ int			init_shell(void)
 	return (1);
 }
 
-void		ft_clear_screen(t_lstfiles *lst, struct winsize w)
+void		ft_clear_screen(t_term *term)
 {
 	tputs(tgetstr("cl", NULL), 0, ft_outchar);
-	ft_display_lst(lst, w);
+	ft_display_lst(term);
 }

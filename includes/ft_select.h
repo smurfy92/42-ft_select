@@ -30,19 +30,28 @@ typedef struct			s_lstfiles
 	struct s_lstfiles	*next;
 }						t_lstfiles;
 
+typedef struct			s_term
+{
+	char				*name;
+	int 				lstlen;
+	size_t 				wordlen;
+	struct s_lstfiles	*lst;
+
+}						t_term;
+
 t_lstfiles				*ft_create_lst(char *name);
-t_lstfiles				*ft_add_lst(t_lstfiles *tmp, t_lstfiles *lst);
+t_lstfiles				*ft_add_lst(t_term *term, t_lstfiles *tmp, t_lstfiles *lst);
 t_lstfiles				*ft_del_lst(t_lstfiles *lst);
-t_lstfiles				*ft_process(t_lstfiles *lst, char *buf);
+t_lstfiles				*ft_process(t_term *term, char *buf);
 int						ft_outchar(int c);
 int						set_shell(int lflag);
 int						reset_shell(void);
 int						init_shell(void);
-void					ft_display_lst(t_lstfiles *lst, struct winsize w);
+void					ft_display_lst(t_term *term);
 void					ft_go_up(t_lstfiles *lst);
 void					ft_select(t_lstfiles *lst);
 void					ft_display_selection(t_lstfiles *lst);
 void					ft_go_down(t_lstfiles *lst);
-void					ft_clear_screen(t_lstfiles *lst, struct winsize w);
+void					ft_clear_screen(t_term *term);
 
 #endif

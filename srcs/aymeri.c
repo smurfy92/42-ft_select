@@ -24,10 +24,13 @@ t_lstfiles			*ft_create_lst(char *name)
 	return (lst);
 }
 
-t_lstfiles			*ft_add_lst(t_lstfiles *tmp, t_lstfiles *lst)
+t_lstfiles			*ft_add_lst(t_term *term, t_lstfiles *tmp, t_lstfiles *lst)
 {
 	t_lstfiles		*tmp2;
 
+	term->lstlen++;
+	if (ft_strlen(tmp->name) > term->wordlen)
+		term->wordlen = ft_strlen(tmp->name);
 	if (!lst)
 		return (tmp);
 	tmp2 = lst;
@@ -66,10 +69,16 @@ t_lstfiles			*ft_del_lst(t_lstfiles *lst)
 	return (lst);
 }
 
-t_lstfiles			*ft_process(t_lstfiles *lst, char *buf)
+t_lstfiles			*ft_process(t_term *term, char *buf)
 {
+	t_lstfiles *lst;
+
+	lst = term->lst;
 	if (buf[0] == 127 || buf[0] == 126)
+	{
+		term->lstlen--;
 		lst = ft_del_lst(lst);
+	}
 	else if (buf[0] == 10)
 		ft_display_selection(lst);
 	else if (buf[0] == 32)
