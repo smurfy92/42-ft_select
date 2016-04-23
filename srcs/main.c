@@ -12,11 +12,11 @@
 
 #include "../includes/ft_select.h"
 
-void				ft_display_lst(t_term *term)
+void		ft_display_lst(t_term *term)
 {
-	int		i;
-	t_lstfiles *lst;
-	struct winsize w;
+	int				i;
+	t_lstfiles		*lst;
+	struct winsize	w;
 
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	lst = term->lst;
@@ -28,12 +28,12 @@ void				ft_display_lst(t_term *term)
 	i = 0;
 	while (lst)
 	{
-		tputs(tgoto(tgetstr("cm", NULL), (term->wordlen + 2) * (i/w.ws_row), i%w.ws_row), 1, ft_outchar);
+		tputs(tgoto(tgetstr("cm", NULL), (term->wordlen + 2) *\
+		(i / w.ws_row), i % w.ws_row), 1, ft_outchar);
 		i++;
 		if (lst->selected)
 			tputs(tgetstr("mr", NULL), 1, ft_outchar);
-		if (lst->cursor)
-			tputs(tgetstr("us", NULL), 1, ft_outchar);
+		(lst->cursor) ? tputs(tgetstr("us", NULL), 1, ft_outchar) : 0;
 		ft_putstr(lst->name);
 		tputs(tgetstr("me", NULL), 1, ft_outchar);
 		lst = lst->next;
@@ -58,15 +58,13 @@ t_term		*ft_get_term(void)
 void		ft_handle_resize(int t)
 {
 	t = 0;
-
 	ft_clear_screen(ft_get_term());
 }
 
-int					main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	struct stat			bufstat;
 	int					i;
-	char				buf[BUFF_SIZE];
 	int					ret;
 	static	t_term		*term;
 
@@ -81,12 +79,12 @@ int					main(int argc, char **argv)
 	term->lst->cursor = 1;
 	ft_clear_screen(term);
 	tputs(tgetstr("vi", NULL), 1, ft_outchar);
-	while ((ret = read(0, buf, BUFFSIZE)))
+	while ((ret = read(0, term->buf, BUFFSIZE)))
 	{
 		set_shell((~ICANON & ~ECHO));
-		term->lst = ft_process(term, buf);
+		term->lst = ft_process(term, term->buf);
 		ft_clear_screen(term);
-		ft_bzero(buf, ft_strlen(buf));
+		ft_bzero(term->buf, ft_strlen(term->buf));
 	}
 	reset_shell();
 	return (0);

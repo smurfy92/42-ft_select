@@ -33,14 +33,16 @@ typedef struct			s_lstfiles
 typedef struct			s_term
 {
 	char				*name;
-	int 				lstlen;
-	size_t 				wordlen;
+	int					lstlen;
+	size_t				wordlen;
+	char				buf[BUFF_SIZE];
 	struct s_lstfiles	*lst;
 
 }						t_term;
 
 t_lstfiles				*ft_create_lst(char *name);
-t_lstfiles				*ft_add_lst(t_term *term, t_lstfiles *tmp, t_lstfiles *lst);
+t_lstfiles				*ft_add_lst(t_term *term, t_lstfiles *tmp,\
+t_lstfiles *lst);
 t_lstfiles				*ft_del_lst(t_lstfiles *lst);
 t_lstfiles				*ft_process(t_term *term, char *buf);
 int						ft_outchar(int c);
