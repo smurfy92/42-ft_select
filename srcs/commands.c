@@ -33,13 +33,10 @@ void		ft_go_down(t_lstfiles *lst)
 		if (tmp->cursor && tmp->next)
 		{
 			tmp->cursor = 0;
-			tmp->next->cursor = 1;
-			break ;
-		}
-		if (tmp->cursor && !tmp->next)
-		{
-			tmp->cursor = 0;
-			lst->cursor = 1;
+			if (tmp->next)
+				tmp->next->cursor = 1;
+			else
+				lst->cursor = 1;
 			break ;
 		}
 		tmp = tmp->next;
