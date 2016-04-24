@@ -14,10 +14,7 @@
 
 int			ft_outchar(int c)
 {
-	int fd;
-
-	fd = open(ttyname(0), O_WRONLY | O_APPEND | O_CREAT)
-	write(fd, &c, 1);
+	write(2, &c, 1);
 	return (0);
 }
 

@@ -18,7 +18,7 @@ void		ft_display_lst(t_term *term)
 	t_lstfiles		*lst;
 	struct winsize	w;
 
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	ioctl(0, TIOCGWINSZ, &w);
 	lst = term->lst;
 	if (((((term->lstlen + 2) / w.ws_row) + 1) * term->wordlen) >= w.ws_col - 2)
 	{

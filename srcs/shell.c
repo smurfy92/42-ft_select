@@ -47,6 +47,6 @@ int			init_shell(void)
 
 void		ft_clear_screen(t_term *term)
 {
-	tputs(tgetstr("cl", NULL), 0, ft_outchar);
+	tputs(tgetstr("cl", NULL), 2, ft_outchar);
 	ft_display_lst(term);
 }
