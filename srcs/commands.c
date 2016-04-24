@@ -14,7 +14,19 @@
 
 int			ft_outchar(int c)
 {
+	int fd;
+
+	fd = open(ttyname(0),O_WRONLY);
 	return (write(1, &c, 1));
+}
+
+void		ft_putstrfd(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		ft_outchar((int)str[i]);
 }
 
 void		ft_go_down(t_lstfiles *lst)
@@ -98,14 +110,13 @@ void		ft_display_selection(t_lstfiles *lst)
 	{
 		if (lst->selected)
 		{
-			(t) ? ft_putchar(' ') : 0;
-			write(0, lst->name, ft_strlen(lst->name));
-			//ft_putstr(lst->name);
+			(t) ? ft_outchar((int)' ') : 0;
+			ft_putstrfd(lst->name);
 			t = 1;
 		}
 		lst = lst->next;
 	}
-	ft_putchar('\n');
+	ft_outchar((int)'\n');
 	reset_shell();
 	exit(0);
 }
