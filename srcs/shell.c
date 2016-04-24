@@ -28,13 +28,8 @@ int			set_shell(int lflag)
 
 int			reset_shell(void)
 {
-	struct termios term;
-
 	tputs(tgetstr("ve", NULL), 1, ft_outchar);
-	if (tcgetattr(0, &term) == -1)
-		return (-1);
-	term.c_lflag = (ICANON | ECHO);
-	if (tcsetattr(0, 0, &term) == -1)
+	if (tcsetattr(0, 0, NULL) == -1)
 		return (-1);
 	return (0);
 }

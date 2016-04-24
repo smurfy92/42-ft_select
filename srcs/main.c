@@ -22,7 +22,7 @@ void		ft_display_lst(t_term *term)
 	lst = term->lst;
 	if (((((term->lstlen + 2) / w.ws_row) + 1) * term->wordlen) >= w.ws_col - 2)
 	{
-		ft_putstrfd("window too small");
+		ft_outstr("window too small");
 		return ;
 	}
 	i = 0;
@@ -33,8 +33,8 @@ void		ft_display_lst(t_term *term)
 		i++;
 		if (lst->selected)
 			tputs(tgetstr("mr", NULL), 1, ft_outchar);
-		(lst->cursor) ? tputs(tgetstr("us", NULL), 1, ft_outchar) : 0;
-		ft_putstrfd(lst->name);
+		(lst->cursor) ? tputs(tgetstr("us", NULL), 2, ft_outchar) : 0;
+		ft_outstr(lst->name);
 		tputs(tgetstr("me", NULL), 1, ft_outchar);
 		lst = lst->next;
 	}
@@ -77,8 +77,8 @@ int			main(int argc, char **argv)
 			term->lst = ft_add_lst(term, ft_create_lst(argv[i]), term->lst);
 	(!term->lst) ? exit(0) : 0;
 	term->lst->cursor = 1;
-	ft_clear_screen(term);
 	tputs(tgetstr("vi", NULL), 1, ft_outchar);
+	ft_clear_screen(term);
 	while ((ret = read(0, term->buf, BUFFSIZE)))
 	{
 		set_shell((~ICANON & ~ECHO));

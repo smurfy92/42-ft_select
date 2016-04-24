@@ -49,7 +49,7 @@ int						ft_outchar(int c);
 int						set_shell(int lflag);
 int						reset_shell(void);
 int						init_shell(void);
-void					ft_putstrfd(char *str);
+void					ft_outstr(char *str);
 void					ft_display_lst(t_term *term);
 void					ft_go_up(t_lstfiles *lst);
 void					ft_select(t_lstfiles *lst);
