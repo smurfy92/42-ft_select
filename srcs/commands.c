@@ -32,8 +32,8 @@ void		ft_go_down(t_lstfiles *lst)
 		}
 		if (tmp->cursor && !tmp->next)
 		{
-			lst->cursor = 1;
 			tmp->cursor = 0;
+			lst->cursor = 1;
 			break ;
 		}
 		tmp = tmp->next;
@@ -99,7 +99,8 @@ void		ft_display_selection(t_lstfiles *lst)
 		if (lst->selected)
 		{
 			(t) ? ft_putchar(' ') : 0;
-			ft_putstr(lst->name);
+			write(0, lst->name, ft_strlen(lst->name));
+			//ft_putstr(lst->name);
 			t = 1;
 		}
 		lst = lst->next;
