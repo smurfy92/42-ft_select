@@ -63,10 +63,26 @@ void		ft_go_up(t_lstfiles *lst)
 
 void		ft_select(t_lstfiles *lst)
 {
+	t_lstfiles *tmp;
+
+	tmp = lst;
 	while (lst)
 	{
 		if (lst->cursor)
-			lst->selected = (lst->selected ? 0 : 1);
+		{
+			if (lst->selected)
+				lst->selected = 0;
+			else
+			{
+				lst->selected = 1;
+				lst->cursor = 0;
+				if (lst->next)
+					lst->next->cursor = 1;
+				else
+					tmp->cursor = 1;
+			}
+			break ;
+		}
 		lst = lst->next;
 	}
 }

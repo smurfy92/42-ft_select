@@ -86,18 +86,14 @@ t_lstfiles			*ft_process(t_term *term, char *buf)
 		tputs(tgetstr("vb", NULL), 1, ft_outchar);
 		ft_select(lst);
 	}
-	else if (buf[0] == 27)
+	else if (buf[0] == 27 && buf[1] == 0)
 	{
-		if (buf[1] == 0)
-		{
-			tputs(tgetstr("cl", NULL), 0, ft_outchar);
-			reset_shell();
-			exit(0);
-		}
-		else if (buf[2] == 65)
-			ft_go_up(lst);
-		else if (buf[2] == 66)
-			ft_go_down(lst);
+		reset_shell();
+		exit(0);
 	}
+	else if (buf[0] == 27 && buf[2] == 65)
+		ft_go_up(lst);
+	else if (buf[0] == 27 && buf[2] == 66)
+		ft_go_down(lst);
 	return (lst);
 }
