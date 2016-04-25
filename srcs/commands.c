@@ -89,25 +89,3 @@ void		ft_select(t_lstfiles *lst)
 		lst = lst->next;
 	}
 }
-
-void		ft_display_selection(t_lstfiles *lst)
-{
-	int t;
-
-	t = 0;
-	tputs(tgetstr("cl", NULL), 0, ft_outchar);
-	tputs(tgoto(tgetstr("cm", NULL), 0, 0), 1, ft_outchar);
-	while (lst)
-	{
-		if (lst->selected)
-		{
-			(t) ? ft_putchar(' ') : 0;
-			ft_putstr(lst->name);
-			t = 1;
-		}
-		lst = lst->next;
-	}
-	ft_putchar('\n');
-	reset_shell();
-	exit(0);
-}

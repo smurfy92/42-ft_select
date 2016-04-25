@@ -50,3 +50,25 @@ void		ft_clear_screen(t_term *term)
 	tputs(tgetstr("cl", NULL), 2, ft_outchar);
 	ft_display_lst(term);
 }
+
+void		ft_display_selection(t_lstfiles *lst)
+{
+	int t;
+
+	t = 0;
+	tputs(tgetstr("cl", NULL), 0, ft_outchar);
+	tputs(tgoto(tgetstr("cm", NULL), 0, 0), 1, ft_outchar);
+	while (lst)
+	{
+		if (lst->selected)
+		{
+			(t) ? ft_putchar(' ') : 0;
+			ft_putstr(lst->name);
+			t = 1;
+		}
+		lst = lst->next;
+	}
+	ft_putchar('\n');
+	reset_shell();
+	exit(0);
+}
