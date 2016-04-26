@@ -55,13 +55,19 @@ void		ft_clear_screen(t_term *term)
 	ft_display_lst(term);
 }
 
-void		ft_display_selection(t_lstfiles *lst)
+void		ft_display_selection(t_term *term)
 {
 	int t;
+	int i;
+	struct winsize	w;
+	t_lstfiles *lst;
 
 	t = 0;
-	tputs(tgetstr("cl", NULL), 0, ft_outchar);
+	ioctl(0, TIOCGWINSZ, &w);
+	i = -1;
+	lst = term->lst;
 	tputs(tgoto(tgetstr("cm", NULL), 0, 0), 1, ft_outchar);
+	tputs(tgetstr("cl", NULL), 2, ft_outchar);
 	while (lst)
 	{
 		if (lst->selected)

@@ -94,7 +94,8 @@ int			main(int argc, char **argv)
 	(!term->lst) ? exit(0) : 0;
 	term->lst->cursor = 1;
 	tputs(tgetstr("vi", NULL), 1, ft_outchar);
-	ft_clear_screen(term);
+	tputs(tgetstr("cl", NULL), 0, ft_outchar);
+	ft_display_lst(term);
 	while ((ret = read(0, term->buf, BUFFSIZE)))
 	{
 		set_shell((~ICANON & ~ECHO));

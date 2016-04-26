@@ -56,8 +56,9 @@ void					ft_outstr(char *str);
 void					ft_display_lst(t_term *term);
 void					ft_go_up(t_lstfiles *lst);
 void					ft_select(t_lstfiles *lst);
-void					ft_display_selection(t_lstfiles *lst);
+void					ft_display_selection(t_term *term);
 void					ft_go_down(t_lstfiles *lst);
 void					ft_clear_screen(t_term *term);
+t_term					*ft_get_term(void);
 
 #endif

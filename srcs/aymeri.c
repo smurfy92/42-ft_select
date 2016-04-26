@@ -86,7 +86,7 @@ t_lstfiles			*ft_process(t_term *term, char *buf)
 		lst = ft_del_lst(lst);
 	}
 	else if (buf[0] == 10)
-		ft_display_selection(lst);
+		ft_display_selection(term);
 	else if (buf[0] == 32)
 	{
 		tputs(tgetstr("vb", NULL), 1, ft_outchar);
