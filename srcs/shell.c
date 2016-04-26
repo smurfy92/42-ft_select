@@ -38,6 +38,10 @@ int			init_shell(void)
 {
 	char	*name;
 
+	signal(SIGWINCH, ft_handle_resize);
+	signal(SIGINT, handler_ctrl);
+	signal(SIGTSTP, handler_ctrl);
+	signal(SIGCONT, handler_cont);
 	if ((name = getenv("TERM")) == NULL)
 		name = "xterm-256color";
 	if (tgetent(NULL, name) == ERR)

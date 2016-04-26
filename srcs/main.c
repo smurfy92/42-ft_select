@@ -55,10 +55,27 @@ t_term		*ft_get_term(void)
 	return (term);
 }
 
-void		ft_handle_resize(int t)
+void		handler_cont(int sig)
 {
-	t = 0;
-	ft_clear_screen(ft_get_term());
+	t_term *term;
+
+	sig = 0;
+	init_shell();
+	set_shell((~ICANON & ~ECHO));
+	tputs(tgetstr("vi", NULL), 1, ft_outchar);
+	term = ft_get_term();
+	ft_clear_screen(term);
+}
+
+void		handler_ctrl(int sig)
+{
+	char	order[2];
+
+	order[0] = sig == SIGTSTP ? 26 : 3;
+	order[1] = 0;
+	reset_shell();
+	signal(sig, SIG_DFL);
+	ioctl(0, TIOCSTI, order);
 }
 
 int			main(int argc, char **argv)
@@ -70,7 +87,6 @@ int			main(int argc, char **argv)
 
 	term = ft_get_term();
 	(init_shell()) ? set_shell((~ICANON & ~ECHO)) : 0;
-	signal(SIGWINCH, ft_handle_resize);
 	i = 0;
 	while (++i < argc)
 		if (!(lstat(argv[i], &bufstat) == -1))

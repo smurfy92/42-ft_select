@@ -12,6 +12,12 @@
 
 #include "../includes/ft_select.h"
 
+void				ft_handle_resize(int t)
+{
+	t = 0;
+	ft_clear_screen(ft_get_term());
+}
+
 t_lstfiles			*ft_create_lst(char *name)
 {
 	t_lstfiles		*lst;
