@@ -18,9 +18,13 @@ int			ft_outchar(int c)
 	return (0);
 }
 
-void		ft_outstr(char *str)
+void		ft_outstr(t_lstfiles *lst)
 {
-	write(2, str, ft_strlen(str));
+	if (lst->selected || lst->cursor)
+		ft_putstr("\033[92m");
+	write(2, lst->name, ft_strlen(lst->name));
+	if (lst->selected || lst->cursor)
+		ft_putstr("\033[0m");
 }
 
 void		ft_go_down(t_lstfiles *lst)

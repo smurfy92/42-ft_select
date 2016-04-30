@@ -52,7 +52,7 @@ int						init_shell(void);
 void					handler_ctrl(int sig);
 void					handler_cont(int sig);
 void					ft_handle_resize(int t);
-void					ft_outstr(char *str);
+void					ft_outstr(t_lstfiles *lst);
 void					ft_display_lst(t_term *term);
 void					ft_go_up(t_lstfiles *lst);
 void					ft_select(t_lstfiles *lst);

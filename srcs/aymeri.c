@@ -94,6 +94,7 @@ t_lstfiles			*ft_process(t_term *term, char *buf)
 	}
 	else if (buf[0] == 27 && buf[1] == 0)
 	{
+		tputs(tgetstr("cl", NULL), 2, ft_outchar);
 		reset_shell();
 		exit(0);
 	}
