@@ -63,7 +63,7 @@ void		handler_cont(int sig)
 	init_shell();
 	set_shell((~ICANON & ~ECHO));
 	tputs(tgetstr("cl", NULL), 2, ft_outchar);
-	tputs(tgetstr("vi", NULL), 1, ft_outchar);
+	tputs(tgetstr("vi", NULL), 2, ft_outchar);
 	term = ft_get_term();
 	ft_clear_screen(term);
 }
@@ -74,6 +74,7 @@ void		handler_ctrl(int sig)
 
 	order[0] = sig == SIGTSTP ? 26 : 3;
 	order[1] = 0;
+	tputs(tgetstr("cl", NULL), 2, ft_outchar);
 	reset_shell();
 	signal(sig, SIG_DFL);
 	ioctl(0, TIOCSTI, order);
@@ -93,9 +94,8 @@ int			main(int argc, char **argv)
 		if (!(lstat(argv[i], &bufstat) == -1))
 			term->lst = ft_add_lst(term, ft_create_lst(argv[i]), term->lst);
 	(!term->lst) ? exit(0) : 0;
-	term->lst->cursor = 1;
-	tputs(tgetstr("vi", NULL), 1, ft_outchar);
-	tputs(tgetstr("cl", NULL), 0, ft_outchar);
+	tputs(tgetstr("vi", NULL), 2, ft_outchar);
+	tputs(tgetstr("cl", NULL), 2, ft_outchar);
 	ft_display_lst(term);
 	ft_bzero(term->buf, ft_strlen(term->buf));
 	while ((ret = read(0, term->buf, BUFFSIZE)))

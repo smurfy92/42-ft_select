@@ -38,7 +38,10 @@ t_lstfiles			*ft_add_lst(t_term *term, t_lstfiles *tmp, t_lstfiles *lst)
 	if (ft_strlen(tmp->name) > term->wordlen)
 		term->wordlen = ft_strlen(tmp->name);
 	if (!lst)
+	{
+		tmp->cursor = 1;
 		return (tmp);
+	}
 	tmp2 = lst;
 	if (lst->next)
 		tmp->next = lst->next;
@@ -81,10 +84,7 @@ t_lstfiles			*ft_process(t_term *term, char *buf)
 
 	lst = term->lst;
 	if (buf[0] == 127 || buf[0] == 126)
-	{
-		term->lstlen--;
-		lst = ft_del_lst(lst);
-	}
+		(term->lstlen--) ? (lst = ft_del_lst(lst)) : 0;
 	else if (buf[0] == 10)
 		ft_display_selection(term);
 	else if (buf[0] == 32)

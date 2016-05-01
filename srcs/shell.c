@@ -57,10 +57,10 @@ void		ft_clear_screen(t_term *term)
 
 void		ft_display_selection(t_term *term)
 {
-	int t;
-	int i;
+	int				t;
+	int				i;
 	struct winsize	w;
-	t_lstfiles *lst;
+	t_lstfiles		*lst;
 
 	t = 0;
 	ioctl(0, TIOCGWINSZ, &w);
