@@ -30,9 +30,10 @@ $(NAME): $(OBJ)
 	-@make -C libft nohd
 	@echo "$(CY)[FT_SELECT] :$(CE) $(CG)Compiling ft_select ...$(CE)";
 	@gcc -o $(NAME) $(FLAG) $(SRC) $(LIB) -lncurses
+	-@make -C libft nohdfclean
 
 %.o: %.c
-	@echo "$(CY)[FT_SELECT] :$(CE) $(CG)Compiling $<$(CE)";
+	@echo "$(CY)[FT_SELECT] :$(CE) $(CG)Compiling $< $(CE)";
 	@gcc $(FLAG) -c $< -o $@
 
 start:
